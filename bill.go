@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 type Bill struct {
 	name string
@@ -46,4 +49,17 @@ func (b Bill) format() string {
 	fs += fmt.Sprintf("%-25v ...$%0.2f\n", "Total :", total)
 	
 	return fs
+}
+
+// save bill in text file
+func (b *Bill) save(){
+	// convert bill data into byte size
+	data := []byte(b.format())
+	
+	// save files to the bills folder as per the bill name
+	err := os.WriteFile("bills/"+b.name+".txt", data, 0644)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Bill saved successfully!")
 }
